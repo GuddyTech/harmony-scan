@@ -36,7 +36,7 @@ pipeline {
                         //     ]
                         // ])
 
-                        scan = 'vulnerability'
+                        scan = 'vulnerabilit'
                         
                         // Assuming scan results are stored in scan variable
                         def vulnerabilitiesFound = scan.contains('vulnerability') // Adjust based on actual scan output format
