@@ -50,7 +50,7 @@ pipeline {
                                 sh '''
                                     curl -s -L \
                                     -X POST \
-                                    -H "Authorization: token ${githubpat-28-05-24-classic}" \
+                                    -H "Authorization: token githubpat-28-05-24-classic" \
                                     -H "Accept: application/vnd.github+json" \
                                     -H "X-GitHub-Api-Version: 2022-11-28" \
                                     https://api.github.com/repos/${GITHUB_REPO}/issues \
