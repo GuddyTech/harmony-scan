@@ -58,6 +58,7 @@ pipeline {
                                     https://api.github.com/repos/${env.GITHUB_REPO}/issues \
                                     -d '{\"title\": \"${issueTitle}\", \"body\": \"${issueBody}\"}'
                                 """
+                            }
                         } else {
                             echo 'No vulnerabilities found.'
                         }
