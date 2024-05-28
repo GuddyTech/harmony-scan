@@ -23,9 +23,6 @@ pipeline {
         }
 
         stage('Harmony Scan') {
-            agent {
-                label 'aws-linux'  // Run Harmony Scan on a Linux agent
-            }
             steps {
                 catchError(message: 'Failed to get Harmony', buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
                     script {
