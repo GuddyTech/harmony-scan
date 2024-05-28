@@ -45,7 +45,7 @@ pipeline {
                             def issueTitle = 'Vulnerabilities found in Harmony scan'
                             def issueBody = "Harmony scan detected vulnerabilities in the codebase. Details:\n\n${scan}"
 
-                            withCredentials([string(credentialsId: 'github-app-sec', variable: 'GITHUB_TOKEN')]) {
+                            withCredentials([string(credentialsId: 'githubpat-28-05-24-classic', variable: 'GITHUB_TOKEN')]) {
                                 // Create GitHub issue
                                 sh """#!/bin/bash
                                 curl -s -L \
