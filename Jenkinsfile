@@ -58,8 +58,8 @@ pipeline {
                                 // """
                                 sh """
                                     export issueTitle='Vulnerabilities found in Harmony scan'
-                                    export issueBody = "Harmony scan detected vulnerabilities in the codebase. Details:\n\n${scan}"
-                                    export issueLabels = '["bug", "help wanted"]'
+                                    export issueBody="Harmony scan detected vulnerabilities in the codebase. Details:\n\n${scan}"
+                                    export issueLabels='["bug", "help wanted"]'
                                     curl -s -L \
                                     -X POST \
                                     -H "Authorization: Bearer ${GITHUB_TOKEN}" \
