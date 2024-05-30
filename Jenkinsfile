@@ -5,6 +5,9 @@ pipeline {
         // Define your environment variables here
         GITHUB_REPO = 'guddytech/harmony-scan' // Replace with your GitHub repository
         GITHUB_API_URL = 'https://api.github.com/repos/guddytech/harmony-scan/issues'
+        ISSUE_TITLE = 'Example Issue Title'
+        ISSUE_BODY = 'This is the body of the example issue.'
+        ISSUE_LABELS = '["bug", "help wanted"]'
     }
 
     stages {
@@ -51,9 +54,9 @@ pipeline {
                                 // Create GitHub issue
                                 def jsonPayload = """
                                 {
-                                    "title": "${issueTitle}",
-                                    "body": "${issueBody}",
-                                    "labels": ${issueLabels}
+                                    "title": "${env.ISSUE_TITLE}",
+                                    "body": "${env.ISSUE_BODY}",
+                                    "labels": ${env.ISSUE_LABELS}
                                 }
                                 """
                                 sh """
