@@ -44,6 +44,7 @@ pipeline {
                             echo 'Vulnerabilities found, creating GitHub issue...'
                             def issueTitle = 'Vulnerabilities found in Harmony scan'
                             def issueBody = "Harmony scan detected vulnerabilities in the codebase. Details:\n\n${scan}"
+                            def issueLabels = '["bug", "help wanted"]'
 
                             withCredentials([string(credentialsId: 'githubpat-28-05-24-classic', variable: 'GITHUB_TOKEN')]) {
                                 // Create GitHub issue
