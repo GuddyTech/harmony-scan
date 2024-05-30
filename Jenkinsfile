@@ -4,6 +4,7 @@ pipeline {
     environment {
         // Define your environment variables here
         GITHUB_REPO = 'guddytech/harmony-scan' // Replace with your GitHub repository
+        GITHUB_API_URL = 'https://api.github.com/repos/guddytech/harmony-scan/issues'
     }
 
     stages {
