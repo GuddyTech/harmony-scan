@@ -57,19 +57,20 @@ pipeline {
                                 // }
                                 // """
                                 sh """
+                                    export issueTitle = 'Vulnerabilities found in Harmony scan'
+                                    export issueBody = "Harmony scan detected vulnerabilities in the codebase. Details:\n\n${scan}"
+                                    export issueLabels = '["bug", "help wanted"]'
                                     curl -s -L \
                                     -X POST \
-                                    -H "Authorization: token ${GITHUB_TOKEN}" \
+                                    -H "Authorization: Bearer ${GITHUB_TOKEN}" \
                                     -H "Accept: application/vnd.github+json" \
                                     -H "X-GitHub-Api-Version: 2022-11-28" \
                                     ${GITHUB_API_URL} \
-                                    -d @- << EOF
-                                    {
+                                    -d '{
                                         "title": "${issueTitle}",
                                         "body": "${issueBody}",
                                         "labels": ${issueLabels}
-                                    }
-                                    EOF
+                                    }'
                                 """
                             }
                         } else {
