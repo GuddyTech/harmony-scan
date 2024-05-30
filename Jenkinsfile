@@ -6,7 +6,7 @@ pipeline {
         GITHUB_REPO = 'guddytech/harmony-scan' // Replace with your GitHub repository
         GITHUB_API_URL = 'https://api.github.com/repos/guddytech/harmony-scan/issues'
         ISSUE_TITLE = 'Example Issue Title'
-        ISSUE_BODY = 'This is the body of the example issue.'
+        ISSUE_BODY = 'This is the body of the example issue. Details:\n\n${scan}'
         ISSUE_LABELS = '["bug", "help wanted"]'
     }
 
