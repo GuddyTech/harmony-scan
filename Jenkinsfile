@@ -49,6 +49,13 @@ pipeline {
 
                             withCredentials([string(credentialsId: 'githubpat-30-05-24-finegrained', variable: 'GITHUB_TOKEN')]) {
                                 // Create GitHub issue
+                                def jsonPayload = """
+                                {
+                                    "title": "${issueTitle}",
+                                    "body": "${issueBody}",
+                                    "labels": ${issueLabels}
+                                }
+                                """
                                 sh """
                                     curl -s -L \
                                     -X POST \
@@ -56,11 +63,7 @@ pipeline {
                                     -H "Accept: application/vnd.github+json" \
                                     -H "X-GitHub-Api-Version: 2022-11-28" \
                                     ${GITHUB_API_URL} \
-                                    -d '{
-                                        "title": "${issueTitle}",
-                                        "body": "${issueBody}",
-                                        "labels": ${issueLabels}
-                                    }'
+                                    -d '${jsonPayload}'
                                 """
                             }
                         } else {
