@@ -60,6 +60,7 @@ pipeline {
                                 }
                                 """
                                 sh """
+                                    export GITHUB_TOKEN=${GITHUB_TOKEN}
                                     curl -s -L \
                                     -X POST \
                                     -H "Authorization: Bearer ${GITHUB_TOKEN}" \
