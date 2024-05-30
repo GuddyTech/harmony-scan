@@ -6,7 +6,7 @@ pipeline {
         GITHUB_REPO = 'guddytech/harmony-scan' // Replace with your GitHub repository
         GITHUB_API_URL = 'https://api.github.com/repos/guddytech/harmony-scan/issues'
         ISSUE_TITLE = 'Example Issue Title'
-        ISSUE_BODY = 'This is the body of the example issue. Details:\n\n${scan}'
+        ISSUE_BODY = 'This is the body of the example issue.'
         ISSUE_LABELS = '["bug", "help wanted"]'
     }
 
@@ -63,7 +63,7 @@ pipeline {
                                     export GITHUB_TOKEN=${GITHUB_TOKEN}
                                     curl -s -L \
                                     -X POST \
-                                    -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+                                    -H "Authorization: token ${GITHUB_TOKEN}" \
                                     -H "Accept: application/vnd.github+json" \
                                     -H "X-GitHub-Api-Version: 2022-11-28" \
                                     ${GITHUB_API_URL} \
