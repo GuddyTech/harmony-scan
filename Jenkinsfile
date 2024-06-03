@@ -1,5 +1,5 @@
 def ISSUE_TITLE = 'this'
-def ISSUE_BODY = 'This is the body of the example issuesss.'
+def ISSUE_BODY = 'This is the body of the example issuesss arising'
 def ISSUE_LABELS = '["bug", "help wanted"]'
 
 def GITHUB_REPO = 'guddytech/harmony-scan'; // Replace with your GitHub repository
