@@ -5,6 +5,55 @@ def ISSUE_LABELS = '["bug", "help wanted"]'
 def GITHUB_REPO = 'guddytech/harmony-scan' // Replace with your GitHub repository
 def GITHUB_API_URL = "https://api.github.com/repos/${GITHUB_REPO}/issues"
 
+
+def getExistingIssueNumber(title) {
+    def response = sh(script: """
+        curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
+             -H "Accept: application/vnd.github+json" \
+             -H "X-GitHub-Api-Version: 2022-11-28" \
+             ${GITHUB_API_URL}?state=open | jq '.[] | select(.title=="${title}") | .number'
+    """, returnStdout: true).trim()
+
+    return response ? response.toInteger() : null
+}
+
+def updateIssue(issueNumber, title, body, labels) {
+    def jsonPayload = """
+    {
+        "title": "${title}",
+        "body": "${body}",
+        "labels": ${labels}
+    }
+    """
+    sh(script: """
+        curl -s -L -X PATCH \
+             -H "Authorization: token ${GITHUB_TOKEN}" \
+             -H "Accept: application/vnd.github+json" \
+             -H "X-GitHub-Api-Version: 2022-11-28" \
+             ${GITHUB_API_URL}/${issueNumber} \
+             -d '${jsonPayload}'
+    """)
+}
+
+def createIssue(title, body, labels) {
+    def jsonPayload = """
+    {
+        "title": "${title}",
+        "body": "${body}",
+        "labels": ${labels}
+    }
+    """
+    sh(script: """
+        curl -s -L -X POST \
+             -H "Authorization: token ${GITHUB_TOKEN}" \
+             -H "Accept: application/vnd.github+json" \
+             -H "X-GitHub-Api-Version: 2022-11-28" \
+             ${GITHUB_API_URL} \
+             -d '${jsonPayload}'
+    """)
+}
+
+
 pipeline {
     agent any
 
@@ -73,49 +122,3 @@ pipeline {
     }
 }
 
-def getExistingIssueNumber(title) {
-    def response = sh(script: """
-        curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
-             -H "Accept: application/vnd.github+json" \
-             -H "X-GitHub-Api-Version: 2022-11-28" \
-             ${GITHUB_API_URL}?state=open | jq '.[] | select(.title=="${title}") | .number'
-    """, returnStdout: true).trim()
-
-    return response ? response.toInteger() : null
-}
-
-def updateIssue(issueNumber, title, body, labels) {
-    def jsonPayload = """
-    {
-        "title": "${title}",
-        "body": "${body}",
-        "labels": ${labels}
-    }
-    """
-    sh(script: """
-        curl -s -L -X PATCH \
-             -H "Authorization: token ${GITHUB_TOKEN}" \
-             -H "Accept: application/vnd.github+json" \
-             -H "X-GitHub-Api-Version: 2022-11-28" \
-             ${GITHUB_API_URL}/${issueNumber} \
-             -d '${jsonPayload}'
-    """)
-}
-
-def createIssue(title, body, labels) {
-    def jsonPayload = """
-    {
-        "title": "${title}",
-        "body": "${body}",
-        "labels": ${labels}
-    }
-    """
-    sh(script: """
-        curl -s -L -X POST \
-             -H "Authorization: token ${GITHUB_TOKEN}" \
-             -H "Accept: application/vnd.github+json" \
-             -H "X-GitHub-Api-Version: 2022-11-28" \
-             ${GITHUB_API_URL} \
-             -d '${jsonPayload}'
-    """)
-}
