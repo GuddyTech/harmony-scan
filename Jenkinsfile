@@ -4,7 +4,7 @@ def ISSUE_BODY = 'This is the body of the example issue.'
 def ISSUE_LABELS = '["bug", "help wanted"]'
 
 def GITHUB_REPO = 'guddytech/harmony-scan'; // Replace with your GitHub repository
-def GITHUB_API_URL = 'https://api.github.com/repos/${GITHUB_REPO}/issues';
+def GITHUB_API_URL = "https://api.github.com/repos/'${GITHUB_REPO}'/issues";
 
 pipeline {
     agent any
