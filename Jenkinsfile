@@ -55,14 +55,14 @@ pipeline {
 
                             withCredentials([string(credentialsId: 'githubpat-30-05-24-finegrained', variable: 'GITHUB_TOKEN')]) {
                                 // Create GitHub issue
-                                def jsonPayload = '''
+                                def jsonPayload = """
                                 {
                                     "title": "${ISSUE_TITLE}",
                                     "body": "${ISSUE_BODY}",
                                     "labels": ${ISSUE_LABELS}
                                 }
-                                '''
-                                sh '''
+                                """
+                                sh """
                                     export GITHUB_TOKEN=${GITHUB_TOKEN}
                                     curl -s -L \
                                     -X POST \
@@ -71,7 +71,7 @@ pipeline {
                                     -H "X-GitHub-Api-Version: 2022-11-28" \
                                     ${GITHUB_API_URL} \
                                     -d '${jsonPayload}'
-                                '''
+                                """
                             }
                         } else {
                             echo 'No vulnerabilities found.'
