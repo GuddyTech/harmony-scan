@@ -6,7 +6,7 @@ def GITHUB_REPO = 'guddytech/harmony-scan' // Replace with your GitHub repositor
 def GITHUB_API_URL = "https://api.github.com/repos/${GITHUB_REPO}/issues"
 
 
-def getExistingIssueNumber(title) {
+def getExistingIssueNumber(title, GITHUB_API_URL, GITHUB_TOKEN) {
     def response = sh(script: """
         curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
              -H "Accept: application/vnd.github+json" \
