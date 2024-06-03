@@ -3,15 +3,11 @@ def ISSUE_TITLE = 'dThis Example Issue Title'
 def ISSUE_BODY = 'This is the body of the example issue.'
 def ISSUE_LABELS = '["bug", "help wanted"]'
 
+def GITHUB_REPO = 'guddytech/harmony-scan' // Replace with your GitHub repository
+def GITHUB_API_URL = 'https://api.github.com/repos/guddytech/harmony-scan/issues'
+
 pipeline {
     agent any
-
-    environment {
-        // Define your environment variables here
-        GITHUB_REPO = 'guddytech/harmony-scan' // Replace with your GitHub repository
-        GITHUB_API_URL = 'https://api.github.com/repos/guddytech/harmony-scan/issues'
-        
-    }
 
     stages {
         stage('Build') {
@@ -49,9 +45,9 @@ pipeline {
 
                         if (vulnerabilitiesFound) {
                             echo 'Vulnerabilities found, creating GitHub issue...'
-                            def issueTitle = 'Vulnerabilities found in Harmony scan'
-                            def issueBody = "Harmony scan detected vulnerabilities in the codebase. Details:\n\n${scan}"
-                            def issueLabels = '["bug", "help wanted"]'
+                            // def issueTitle = 'Vulnerabilities found in Harmony scan'
+                            // def issueBody = "Harmony scan detected vulnerabilities in the codebase. Details:\n\n${scan}"
+                            // def issueLabels = '["bug", "help wanted"]'
 
                             withCredentials([string(credentialsId: 'githubpat-30-05-24-finegrained', variable: 'GITHUB_TOKEN')]) {
                                 // Create GitHub issue
