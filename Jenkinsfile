@@ -1,3 +1,8 @@
+
+def ISSUE_TITLE = 'This Example Issue Title'
+def ISSUE_BODY = 'This is the body of the example issue.'
+def ISSUE_LABELS = '["bug", "help wanted"]'
+
 pipeline {
     agent any
 
@@ -5,9 +10,7 @@ pipeline {
         // Define your environment variables here
         GITHUB_REPO = 'guddytech/harmony-scan' // Replace with your GitHub repository
         GITHUB_API_URL = 'https://api.github.com/repos/guddytech/harmony-scan/issues'
-        ISSUE_TITLE = 'This Example Issue Title'
-        ISSUE_BODY = 'This is the body of the example issue.'
-        ISSUE_LABELS = '["bug", "help wanted"]'
+        
     }
 
     stages {
