@@ -1,6 +1,6 @@
 
 def ISSUE_TITLE = "This is for Harmony Scan Example Issue Title" 
-def ISSUE_BODY = "This is the body of the example issue issue."
+def ISSUE_BODY = "This is the body of the example issue issue. $JOB_NAME $BUILD_DISPLAY_NAME"
 def ISSUE_LABELS = '["bug", "help wanted"]'
 
 def GITHUB_REPO = 'guddytech/harmony-scan'; // Replace with your GitHub repository
