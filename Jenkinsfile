@@ -1,3 +1,5 @@
+
+def hello = "hi";
 pipeline {
     agent any
  
@@ -19,6 +21,7 @@ pipeline {
             steps {
                 // Your unit test steps here
                 echo 'Running unit tests...'
+                echo '${hello}'
             }
         }
 
