@@ -1,12 +1,13 @@
-
-def hello = "hi";
 pipeline {
     agent any
- 
+
     environment {
         // Define your environment variables here
         GITHUB_REPO = 'guddytech/harmony-scan' // Replace with your GitHub repository
         GITHUB_API_URL = 'https://api.github.com/repos/guddytech/harmony-scan/issues'
+        ISSUE_TITLE = 'This Example Issue Title'
+        ISSUE_BODY = 'This is the body of the example issue.'
+        ISSUE_LABELS = '["bug", "help wanted"]'
     }
 
     stages {
@@ -14,7 +15,6 @@ pipeline {
             steps {
                 // Your build steps here
                 echo 'Building...'
-                sh "echo ${hello}"
             }
         }
 
@@ -22,7 +22,6 @@ pipeline {
             steps {
                 // Your unit test steps here
                 echo 'Running unit tests...'
-                echo "${hello}"
             }
         }
 
@@ -53,29 +52,23 @@ pipeline {
 
                             withCredentials([string(credentialsId: 'githubpat-30-05-24-finegrained', variable: 'GITHUB_TOKEN')]) {
                                 // Create GitHub issue
-                                // def jsonPayload = """
-                                // {
-                                //     "title": "${issueTitle}",
-                                //     "body": "${issueBody}",
-                                //     "labels": ${issueLabels}
-                                // }
-                                // """
-                                sh '''
-                                    export issueTitle='Vulnerabilities found in Harmony scan'
-                                    export issueBody="Harmony scan detected vulnerabilities in the codebase. Details:\n\n${scan}"
-                                    export issueLabels='["bug", "help wanted"]'
+                                def jsonPayload = """
+                                {
+                                    "title": "${env.ISSUE_TITLE}",
+                                    "body": "${env.ISSUE_BODY}",
+                                    "labels": ${env.ISSUE_LABELS}
+                                }
+                                """
+                                sh """
+                                    export GITHUB_TOKEN=${GITHUB_TOKEN}
                                     curl -s -L \
                                     -X POST \
-                                    -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+                                    -H "Authorization: token ${GITHUB_TOKEN}" \
                                     -H "Accept: application/vnd.github+json" \
                                     -H "X-GitHub-Api-Version: 2022-11-28" \
                                     ${GITHUB_API_URL} \
-                                    -d '{
-                                        "title": "${issueTitle}",
-                                        "body": "${issueBody}",
-                                        "labels": ${issueLabels}
-                                    }'
-                                '''
+                                    -d '${jsonPayload}'
+                                """
                             }
                         } else {
                             echo 'No vulnerabilities found.'
