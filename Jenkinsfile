@@ -56,7 +56,7 @@ pipeline {
                                 //     "labels": ${issueLabels}
                                 // }
                                 // """
-                                sh """
+                                sh '''
                                     export issueTitle='Vulnerabilities found in Harmony scan'
                                     export issueBody="Harmony scan detected vulnerabilities in the codebase. Details:\n\n${scan}"
                                     export issueLabels='["bug", "help wanted"]'
@@ -71,7 +71,7 @@ pipeline {
                                         "body": "${issueBody}",
                                         "labels": ${issueLabels}
                                     }'
-                                """
+                                '''
                             }
                         } else {
                             echo 'No vulnerabilities found.'
