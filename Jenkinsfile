@@ -90,14 +90,14 @@ pipeline {
                                         "labels": ${ISSUE_LABELS}
                                     }
                                     """
-                                    sh '''
+                                    sh """
                                         curl -s -L \
                                         -X POST \
                                         -H "Authorization: token ${GITHUB_TOKEN}" \
                                         -H "Accept: application/vnd.github+json" \
                                         ${GITHUB_API_URL}/issues \
                                         -d '${jsonPayload}'
-                                    '''
+                                    """
                                 }
                             }
                         } else {
