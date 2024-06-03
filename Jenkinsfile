@@ -14,6 +14,7 @@ pipeline {
             steps {
                 // Your build steps here
                 echo 'Building...'
+                sh "echo ${hello}"
             }
         }
 
