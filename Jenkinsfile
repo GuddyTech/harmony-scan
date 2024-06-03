@@ -1,7 +1,7 @@
 //It works but creates the issue any time the pipeline runs. Check github-issue/RestAPI-working-updates-issues
 
 
-def ISSUE_TITLE = "This is for Harmony Scan Example Issue Title. REPO: $JOB_NAME BUILD NUMBER: $BUILD_DISPLAY_NAME Details:\n\n${scan}" 
+def ISSUE_TITLE = "This is for Harmony Scan Example Issue Title. REPO: $JOB_NAME BUILD NUMBER: $BUILD_DISPLAY_NAME" 
 def ISSUE_BODY = "This is the body of the example issue issue."
 def ISSUE_LABELS = '["bug", "help wanted"]'
 
