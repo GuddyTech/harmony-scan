@@ -44,7 +44,7 @@ pipeline {
                         if (vulnerabilitiesFound) {
                             echo 'Vulnerabilities found, creating or updating GitHub issue...'
 
-                            def ISSUE_TITLE = "Tests for update"
+                            def ISSUE_TITLE = "Testss for update"
                             def ISSUE_BODY = "This is the body of the example issuesss arising. Details: ${scan}"
                             def ISSUE_LABELS = '["bug", "help wanted"]'
 
