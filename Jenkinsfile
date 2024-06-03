@@ -53,7 +53,7 @@ pipeline {
                             // def issueLabels = '["bug", "help wanted"]'
                             
                             // Append scan results to the issue body
-                            def updatedIssueBody = "${ISSUE_BODY} Harmony scan detected vulnerabilities in the codebase. "
+                            def updatedIssueBody = "${ISSUE_BODY} Harmony scan detected vulnerabilities in the codebase. ${scan} "
                            
 
                             withCredentials([string(credentialsId: 'githubpat-30-05-24-finegrained', variable: 'GITHUB_TOKEN')]) {
