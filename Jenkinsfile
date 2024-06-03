@@ -51,7 +51,7 @@ pipeline {
                             // def issueLabels = '["bug", "help wanted"]'           
 
                             def ISSUE_TITLE = "This is for Harmony Scan Example Issue Title. REPO: $JOB_NAME BUILD NUMBER: $BUILD_DISPLAY_NAME" 
-                            def ISSUE_BODY = "This is the body of the example issue issue. ${scan}"
+                            def ISSUE_BODY = "This is the body of the example issue issue. Details: ${scan}"
                             def ISSUE_LABELS = '["bug", "help wanted"]'
 
                             // Append scan results to the issue body
