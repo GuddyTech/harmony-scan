@@ -1,5 +1,5 @@
 
-def ISSUE_TITLE = 'This Example Issue Title'
+def ISSUE_TITLE = 'dThis Example Issue Title'
 def ISSUE_BODY = 'This is the body of the example issue.'
 def ISSUE_LABELS = '["bug", "help wanted"]'
 
@@ -62,7 +62,7 @@ pipeline {
                                     "labels": ${ISSUE_LABELS}
                                 }
                                 """
-                                sh """
+                                sh '''
                                     export GITHUB_TOKEN=${GITHUB_TOKEN}
                                     curl -s -L \
                                     -X POST \
@@ -71,7 +71,7 @@ pipeline {
                                     -H "X-GitHub-Api-Version: 2022-11-28" \
                                     ${GITHUB_API_URL} \
                                     -d '${jsonPayload}'
-                                """
+                                '''
                             }
                         } else {
                             echo 'No vulnerabilities found.'
