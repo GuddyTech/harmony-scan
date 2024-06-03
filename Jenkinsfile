@@ -71,8 +71,9 @@ pipeline {
                                     -H "Authorization: token ${GITHUB_TOKEN}" \
                                     -H "Accept: application/vnd.github+json" \
                                     -H "X-GitHub-Api-Version: 2022-11-28" \
-                                    -d \'''' + jsonPayload + '''\'
-                                    ''' + GITHUB_API_URL
+                                    -d '${jsonPayload}' \
+                                    ${GITHUB_API_URL}
+                                '''
                                     
                                 
                             }
