@@ -55,13 +55,13 @@ pipeline {
 
                             withCredentials([string(credentialsId: 'githubpat-30-05-24-finegrained', variable: 'GITHUB_TOKEN')]) {
                                 // Create GitHub issue
-                                def jsonPayload = """
+                                def jsonPayload = '''
                                 {
                                     "title": "${ISSUE_TITLE}",
                                     "body": "${ISSUE_BODY}",
                                     "labels": ${ISSUE_LABELS}
                                 }
-                                """
+                                '''
                                 sh '''
                                     export GITHUB_TOKEN=${GITHUB_TOKEN}
                                     curl -s -L \
