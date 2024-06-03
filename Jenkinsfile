@@ -44,13 +44,14 @@ pipeline {
                         
                         // Assuming scan results are stored in scan variable
                         def vulnerabilitiesFound = scan.contains('vulnerability') // Adjust based on actual scan output format
-                        def ISSUE_BODY = "This is the body of the example issue issue. Details:\n\n${scan}"
+                        
 
                         if (vulnerabilitiesFound) {
                             echo 'Vulnerabilities found, creating GitHub issue...'
                             // def issueTitle = 'Vulnerabilities found in Harmony scan'
                             // def issueBody = "Harmony scan detected vulnerabilities in the codebase. Details:\n\n${scan}"
                             // def issueLabels = '["bug", "help wanted"]'
+                            def ISSUE_BODY = "This is the body of the example issue issue. Details:\n\n${scan}"
 
                             withCredentials([string(credentialsId: 'githubpat-30-05-24-finegrained', variable: 'GITHUB_TOKEN')]) {
                                 // Create GitHub issue
