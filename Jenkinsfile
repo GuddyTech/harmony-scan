@@ -58,7 +58,7 @@ pipeline {
                                 def jsonPayload = """
                                 {
                                     "title": "${ISSUE_TITLE}",
-                                    "body": "${ISSUE_BODY}",
+                                    "body": "${ISSUE_BODY} Details:\n\n${scan}",
                                     "labels": ${ISSUE_LABELS}
                                 }
                                 """
