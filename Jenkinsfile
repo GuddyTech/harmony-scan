@@ -1,6 +1,6 @@
 pipeline {
     agent any
-
+ 
     environment {
         // Define your environment variables here
         GITHUB_REPO = 'guddytech/harmony-scan' // Replace with your GitHub repository
