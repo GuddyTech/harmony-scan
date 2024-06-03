@@ -47,15 +47,15 @@ pipeline {
 
                             withCredentials([string(credentialsId: 'githubpat-30-05-24-finegrained', variable: 'GITHUB_TOKEN')]) {
                                 // Create GitHub issue
-                                sh '''
+                                sh """
                                     curl -s -L \
                                     -X POST \
                                     -H "Authorization: token ${GITHUB_TOKEN}" \
                                     -H "Accept: application/vnd.github+json" \
                                     -H "X-GitHub-Api-Version: 2022-11-28" \
                                     https://api.github.com/repos/${GITHUB_REPO}/issues \
-                                    -d "{\"title\": \"${issueTitle}\", \"body\": \"${issueBody}\"}"
-                                '''
+                                    -d '{\"title\": \"${issueTitle}\", \"body\": \"${issueBody}\"}'
+                                """
                             }
                         } else {
                             echo 'No vulnerabilities found.'
