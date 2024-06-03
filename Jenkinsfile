@@ -53,12 +53,12 @@ pipeline {
                                 // Create GitHub issue
                                 def jsonPayload = """
                                 {
-                                    "title": "${ISSUE_TITLE}",
+                                    "title": '${ISSUE_TITLE}',
                                     "body": "${ISSUE_BODY}",
                                     "labels": ${ISSUE_LABELS}
                                 }
                                 """
-                                sh """ #!/bin/bash
+                                sh """
                                     curl -s -L \
                                     -X POST \
                                     -H "Authorization: token ${GITHUB_TOKEN}" \
