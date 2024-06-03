@@ -1,9 +1,10 @@
 pipeline {
     agent any
-
+ 
     environment {
         // Define your environment variables here
         GITHUB_REPO = 'guddytech/harmony-scan' // Replace with your GitHub repository
+        GITHUB_API_URL = 'https://api.github.com/repos/guddytech/harmony-scan/issues'
     }
 
     stages {
@@ -44,18 +45,33 @@ pipeline {
                             echo 'Vulnerabilities found, creating GitHub issue...'
                             def issueTitle = 'Vulnerabilities found in Harmony scan'
                             def issueBody = "Harmony scan detected vulnerabilities in the codebase. Details:\n\n${scan}"
+                            def issueLabels = '["bug", "help wanted"]'
 
                             withCredentials([string(credentialsId: 'githubpat-30-05-24-finegrained', variable: 'GITHUB_TOKEN')]) {
                                 // Create GitHub issue
-                                sh """
+                                // def jsonPayload = """
+                                // {
+                                //     "title": "${issueTitle}",
+                                //     "body": "${issueBody}",
+                                //     "labels": ${issueLabels}
+                                // }
+                                // """
+                                sh '''
+                                    export issueTitle='Vulnerabilities found in Harmony scan'
+                                    export issueBody="Harmony scan detected vulnerabilities in the codebase. Details:\n\n${scan}"
+                                    export issueLabels='["bug", "help wanted"]'
                                     curl -s -L \
                                     -X POST \
-                                    -H "Authorization: token ${GITHUB_TOKEN}" \
+                                    -H "Authorization: Bearer ${GITHUB_TOKEN}" \
                                     -H "Accept: application/vnd.github+json" \
                                     -H "X-GitHub-Api-Version: 2022-11-28" \
-                                    https://api.github.com/repos/${GITHUB_REPO}/issues \
-                                    -d '{\"title\": \"${issueTitle}\", \"body\": \"${issueBody}\"}'
-                                """
+                                    ${GITHUB_API_URL} \
+                                    -d '{
+                                        "title": "${issueTitle}",
+                                        "body": "${issueBody}",
+                                        "labels": ${issueLabels}
+                                    }'
+                                '''
                             }
                         } else {
                             echo 'No vulnerabilities found.'
