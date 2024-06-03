@@ -2,7 +2,7 @@
 
 
 def ISSUE_TITLE = "This is for Harmony Scan Example Issue Title. REPO: $JOB_NAME BUILD NUMBER: $BUILD_DISPLAY_NAME" 
-def ISSUE_BODY = "This is the body of the example issue issue."
+def ISSUE_BODY = "This is the body of the example issue issue. Details: ${scan}"
 def ISSUE_LABELS = '["bug", "help wanted"]'
 
 def GITHUB_REPO = 'guddytech/harmony-scan'; // Replace with your GitHub repository
@@ -50,18 +50,14 @@ pipeline {
                             echo 'Vulnerabilities found, creating GitHub issue...'
                             // def issueTitle = 'Vulnerabilities found in Harmony scan'
                             // def issueBody = "Harmony scan detected vulnerabilities in the codebase. Details:\n\n${scan}"
-                            // def issueLabels = '["bug", "help wanted"]'
-                            
-                            // Append scan results to the issue body
-                            def updatedIssueBody = "${ISSUE_BODY} Harmony scan detected vulnerabilities in the codebase. ${scan} "
-                           
+                            // def issueLabels = '["bug", "help wanted"]'                         
 
                             withCredentials([string(credentialsId: 'githubpat-30-05-24-finegrained', variable: 'GITHUB_TOKEN')]) {
                                 // Create GitHub issue
                                 def jsonPayload = """
                                 {
                                     "title": "${ISSUE_TITLE}",
-                                    "body": "${updatedIssueBody}",
+                                    "body": "${ISSUE_BODY}",
                                     "labels": ${ISSUE_LABELS}
                                 }
                                 """
