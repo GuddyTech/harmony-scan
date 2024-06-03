@@ -6,7 +6,7 @@ def GITHUB_REPO = 'guddytech/harmony-scan'; // Replace with your GitHub reposito
 def GITHUB_API_URL = "https://api.github.com/repos/${GITHUB_REPO}";
 
 pipeline {
-    agent any
+    agent any 
 
     stages {
         stage('Build') {
