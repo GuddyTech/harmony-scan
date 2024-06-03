@@ -72,7 +72,7 @@ pipeline {
                                         -H "Accept: application/vnd.github+json" \
                                         ${GITHUB_API_URL}/issues/${issueNumber} \
                                         -d '${jsonPayload}'
-                                    """, withCredentials: [['string', credentialsId: 'githubpat-30-05-24-finegrained', variable: 'GITHUB_TOKEN']])
+                                    """)
                                 } else {
                                     // Create a new issue
                                     echo "Creating new issue..."
@@ -90,7 +90,7 @@ pipeline {
                                         -H "Accept: application/vnd.github+json" \
                                         ${GITHUB_API_URL}/issues \
                                         -d '${jsonPayload}'
-                                    """, withCredentials: [['string', credentialsId: 'githubpat-30-05-24-finegrained', variable: 'GITHUB_TOKEN']])
+                                    """)
                                 }
                             }
                         } else {
