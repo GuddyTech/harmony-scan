@@ -1,4 +1,4 @@
-def ISSUE_TITLE = 'This Example Issue Title'
+def ISSUE_TITLE = 'this'
 def ISSUE_BODY = 'This is the body of the example issue.'
 def ISSUE_LABELS = '["bug", "help wanted"]'
 
