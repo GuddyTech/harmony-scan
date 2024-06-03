@@ -1,5 +1,5 @@
 
-def ISSUE_TITLE = 'dThis Example Issue Title'
+def ISSUE_TITLE = 'This Example Issue Title'
 def ISSUE_BODY = 'This is the body of the example issue.'
 def ISSUE_LABELS = '["bug", "help wanted"]'
 
@@ -58,7 +58,7 @@ pipeline {
                                     "labels": ${ISSUE_LABELS}
                                 }
                                 """
-                                sh """
+                                sh """ #!/bin/bash
                                     curl -s -L \
                                     -X POST \
                                     -H "Authorization: token ${GITHUB_TOKEN}" \
