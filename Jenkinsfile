@@ -44,7 +44,7 @@ pipeline {
                         if (vulnerabilitiesFound) {
                             echo 'Vulnerabilities found, creating or updating GitHub issue...'
 
-                            def ISSUE_TITLE = "Test for Harmony Scan BlackDuck"
+                            def ISSUE_TITLE = "Test for Harmony Scan BlackDuck. BUILD NUMBER: $BUILD_DISPLAY_NAME"
                             def ISSUE_BODY = "This is the body of the example issuesss arising now. Details: ${scan}"
                             def ISSUE_LABELS = '["bug", "help wanted"]'
 
