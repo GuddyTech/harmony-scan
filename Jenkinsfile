@@ -1,13 +1,11 @@
-//It works but creates the issue any time the pipeline runs. Check github-issue/RestAPI-working-updates-issues
-
-
-
+//This one works! It creates issues if they are not already there, and updates the existing issue if it is there. 
+//It works with the issue title
 
 def GITHUB_REPO = 'guddytech/harmony-scan'; // Replace with your GitHub repository
-def GITHUB_API_URL = "https://api.github.com/repos/${GITHUB_REPO}/issues";
+def GITHUB_API_URL = "https://api.github.com/repos/${GITHUB_REPO}";
 
 pipeline {
-    agent any
+    agent any 
 
     stages {
         stage('Build') {
@@ -42,39 +40,65 @@ pipeline {
                         
                         // Assuming scan results are stored in scan variable
                         def vulnerabilitiesFound = scan.contains('vulnerability') // Adjust based on actual scan output format
-                        
 
                         if (vulnerabilitiesFound) {
-                            echo 'Vulnerabilities found, creating GitHub issue...'
-                            // def issueTitle = 'Vulnerabilities found in Harmony scan'
-                            // def issueBody = "Harmony scan detected vulnerabilities in the codebase. Details:\n\n${scan}"
-                            // def issueLabels = '["bug", "help wanted"]'           
+                            echo 'Vulnerabilities found, creating or updating GitHub issue...'
 
-                            def ISSUE_TITLE = "This is for Harmony Scan Example Issue Title. REPO: $JOB_NAME BUILD NUMBER: $BUILD_DISPLAY_NAME" 
-                            def ISSUE_BODY = "This is the body of the example issue issue. Details: ${scan}"
+                            def ISSUE_TITLE = 'Test for update'
+                            def ISSUE_BODY = 'This is the body of the example issuesss arising. Details: ${scan}'
                             def ISSUE_LABELS = '["bug", "help wanted"]'
 
-                            // Append scan results to the issue body
-                            //def updatedIssueBody = "${ISSUE_BODY} Harmony scan detected vulnerabilities in the codebase. Details: ${scan}"
-
                             withCredentials([string(credentialsId: 'githubpat-30-05-24-finegrained', variable: 'GITHUB_TOKEN')]) {
-                                // Create GitHub issue
-                                def jsonPayload = """
-                                {
-                                    "title": "${ISSUE_TITLE}",
-                                    "body": "${ISSUE_BODY}",
-                                    "labels": ${ISSUE_LABELS}
-                                }
-                                """
-                                sh '''#!/bin/bash
+                                // Check if an issue with the same title already exists
+                                def issueExists = sh(
+                                    script: """
                                     curl -s -L \
-                                    -X POST \
                                     -H "Authorization: token ${GITHUB_TOKEN}" \
                                     -H "Accept: application/vnd.github+json" \
-                                    -H "X-GitHub-Api-Version: 2022-11-28" \
-                                    ''' + GITHUB_API_URL + ''' \
-                                    -d ''' + "'" + jsonPayload + "'"                                   
+                                    ${GITHUB_API_URL}/issues \
+                                    | jq -r --arg title "${ISSUE_TITLE}" '.[] | select(.title == \$title) | .number'
+                                    """,
+                                    returnStdout: true
+                                ).trim()
                                 
+                                if (issueExists) {
+                                    // Update the existing issue
+                                    def issueNumber = issueExists
+                                    echo "Updating existing issue #${issueNumber}..."
+                                    def jsonPayload = """
+                                    {
+                                        "title": "${ISSUE_TITLE}",
+                                        "body": "${ISSUE_BODY}",
+                                        "labels": ${ISSUE_LABELS}
+                                    }
+                                    """
+                                    sh """
+                                        curl -s -L \
+                                        -X PATCH \
+                                        -H "Authorization: token ${GITHUB_TOKEN}" \
+                                        -H "Accept: application/vnd.github+json" \
+                                        ${GITHUB_API_URL}/issues/${issueNumber} \
+                                        -d '${jsonPayload}'
+                                    """
+                                } else {
+                                    // Create a new issue
+                                    echo "Creating new issue..."
+                                    def jsonPayload = """
+                                    {
+                                        "title": "${ISSUE_TITLE}",
+                                        "body": "${ISSUE_BODY}",
+                                        "labels": ${ISSUE_LABELS}
+                                    }
+                                    """
+                                    sh """
+                                        curl -s -L \
+                                        -X POST \
+                                        -H "Authorization: token ${GITHUB_TOKEN}" \
+                                        -H "Accept: application/vnd.github+json" \
+                                        ${GITHUB_API_URL}/issues \
+                                        -d '${jsonPayload}'
+                                    """
+                                }
                             }
                         } else {
                             echo 'No vulnerabilities found.'
