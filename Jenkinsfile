@@ -1,3 +1,6 @@
+//This one works! It creates issues if they are not already there, and updates the existing issue if it is there. 
+//It works with the issue title
+
 def GITHUB_REPO = 'guddytech/harmony-scan'; // Replace with your GitHub repository
 def GITHUB_API_URL = "https://api.github.com/repos/${GITHUB_REPO}";
 
