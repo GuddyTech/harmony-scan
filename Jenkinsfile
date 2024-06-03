@@ -57,9 +57,9 @@ pipeline {
                                 // Create GitHub issue
                                 def jsonPayload = """
                                 {
-                                    "title": "${env.ISSUE_TITLE}",
-                                    "body": "${env.ISSUE_BODY}",
-                                    "labels": ${env.ISSUE_LABELS}
+                                    "title": "${ISSUE_TITLE}",
+                                    "body": "${ISSUE_BODY}",
+                                    "labels": ${ISSUE_LABELS}
                                 }
                                 """
                                 sh """
