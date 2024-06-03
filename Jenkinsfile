@@ -50,6 +50,7 @@ pipeline {
                                         "labels": ${ISSUE_LABELS}
                                     }
                                     """
+                                    echo "JSON Payload: ${jsonPayload}"
                                     sh(script: '''
                                         curl -s -L \
                                         -X PATCH \
@@ -67,6 +68,7 @@ pipeline {
                                         "labels": ${ISSUE_LABELS}
                                     }
                                     """
+                                    echo "JSON Payload: ${jsonPayload}"
                                     sh(script: '''
                                         curl -s -L \
                                         -X POST \
