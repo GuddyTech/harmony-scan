@@ -1,4 +1,4 @@
-def ISSUE_TITLE = "This is for Harmony Scan Example Issue Title."
+def ISSUE_TITLE = "This is for Harmony Scan Example Issue Title. REPO: $JOB_NAME BUILD NUMBER: $BUILD_DISPLAY_NAME"
 def ISSUE_BODY = "This is the body of the example issue issue."
 def ISSUE_LABELS = '["bug", "help wanted"]'
 
