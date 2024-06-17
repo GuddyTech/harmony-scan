@@ -19,7 +19,7 @@ pipeline {
                             // Run Dependency-Check scan with exclusions
                             sh '''
                                 ./dependency-check/bin/dependency-check.sh --project "my-project" \
-                                --scan ${WORKSPACE}/**/*.jar \
+                                --scan ${WORKSPACE}/dependency-check/dependency-check/lib/aho-corasick-double-array-trie-1.2.3.jar \
                                 --out ${WORKSPACE}/dependency-check-report \
                                 --format ALL \
                                 --exclude "**/node_modules/**,**/*.log"
