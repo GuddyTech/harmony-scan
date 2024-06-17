@@ -13,8 +13,8 @@ pipeline {
                     script {
                         try {
                             // Download and configure OWASP Dependency-Check
-                            sh 'curl -L https://github.com/jeremylong/DependencyCheck/releases/download/v6.3.2/dependency-check-6.3.2-release.zip -o dependency-check.zip'
-                            sh 'unzip dependency-check.zip -d dependency-check'
+                            //sh 'curl -L https://github.com/jeremylong/DependencyCheck/releases/download/v6.3.2/dependency-check-6.3.2-release.zip -o dependency-check.zip'
+                           // sh 'unzip dependency-check.zip -d dependency-check'
                             
                             // Run Dependency-Check scan with exclusions
                             sh '''
