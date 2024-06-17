@@ -19,7 +19,7 @@ pipeline {
                             // Run Dependency-Check scan with exclusions
                             sh '''
                                 ./dependency-check/bin/dependency-check.sh --project "my-project" \
-                                --scan ${WORKSPACE}/**/*.md \
+                                --scan ${WORKSPACE}/vulnerable.md \
                                 --out ${WORKSPACE}/dependency-check-report \
                                 --format ALL \
                                 --exclude "**/node_modules/**,**/*.log"
