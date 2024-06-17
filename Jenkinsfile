@@ -1,116 +1,60 @@
-//This one works! It creates issues if they are not already there, and updates the existing issue if it is there. 
-//It works with the issue title
-
-def GITHUB_REPO = 'guddytech/harmony-scan'; // Replace with your GitHub repository
-def GITHUB_API_URL = "https://api.github.com/repos/${GITHUB_REPO}";
-
 pipeline {
-    agent any 
+    agent any
+
+    environment {
+        // Define any environment variables you need
+        WORKSPACE = "${env.WORKSPACE}"
+    }
 
     stages {
-        stage('Build') {
-            steps {
-                // Your build steps here
-                echo 'Building...'
-            }
-        }
-
-        stage('Unit Test') {
-            steps {
-                // Your unit test steps here
-                echo 'Running unit tests...'
-            }
-        }
-
         stage('Harmony Scan') {
             steps {
                 catchError(message: 'Failed to get Harmony', buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
                     script {
-                        // scan = new ors.security.CommonHarmony(steps, env, Artifactory, scm).run_scan([
-                        //     "repository":"mint/araas",
-                        //     "product_output":"${env.WORKSPACE}",
-                        //     "analyze_results": true, 
-                        //     "exclusions": [                          // Add exclusions here
-                        //     "**/node_modules/**",               // Exclude node_modules directory
-                        //     "**/*.log"                         // Exclude log files
-                        //     ]
-                        // ])
-
-                        scan = 'vulnerability'
-                        
-                        // Assuming scan results are stored in scan variable
-                        def vulnerabilitiesFound = scan.contains('vulnerability') // Adjust based on actual scan output format
-
-                        if (vulnerabilitiesFound) {
-                            echo 'Vulnerabilities found, creating or updating GitHub issue...'
-
-                            def ISSUE_TITLE = "Test for Harmony Scan BlackDuck. BUILD NUMBER: $BUILD_DISPLAY_NAME"
-                            def ISSUE_BODY = "This is the body of the example issuesss arising now. Details: ${scan}"
-                            def ISSUE_LABELS = '["bug", "help wanted"]'
-
-                            withCredentials([string(credentialsId: 'githubpat-30-05-24-finegrained', variable: 'GITHUB_TOKEN')]) {
-                                // Check if an issue with the same title already exists
-                                def issueExists = sh(
-                                    script: '''#!/bin/bash
-                                    curl -s -L \
-                                    -H "Authorization: token $GITHUB_TOKEN" \
-                                    -H "Accept: application/vnd.github+json" \
-                                    ''' + GITHUB_API_URL + '''/issues \
-                                    | jq -r --arg title "''' + ISSUE_TITLE + '''" '.[] | select(.title == $title) | .number'
-                                    ''',
-                                    returnStdout: true
-                                ).trim()
-                                
-                                if (issueExists) {
-                                    // Update the existing issue
-                                    def issueNumber = issueExists
-                                    echo "Updating existing issue #${issueNumber}..."
-                                    def jsonPayload = """
-                                    {
-                                        "title": "${ISSUE_TITLE}",
-                                        "body": "${ISSUE_BODY}",
-                                        "labels": ${ISSUE_LABELS}
-                                    }
-                                    """
-                                    sh '''#!/bin/bash
-                                        curl -s -L \
-                                        -X PATCH \
-                                        -H "Authorization: token $GITHUB_TOKEN" \
-                                        -H "Accept: application/vnd.github+json" \
-                                        ''' + GITHUB_API_URL + '''/issues/''' + issueNumber + ''' \
-                                        -d ''' + "'" + jsonPayload + "'"
-                                } else {
-                                    // Create a new issue
-                                    echo "Creating new issue..."
-                                    def jsonPayload = """
-                                    {
-                                        "title": "${ISSUE_TITLE}",
-                                        "body": "${ISSUE_BODY}",
-                                        "labels": ${ISSUE_LABELS}
-                                    }
-                                    """
-                                    sh '''#!/bin/bash
-                                        curl -s -L \
-                                        -X POST \
-                                        -H "Authorization: token $GITHUB_TOKEN" \
-                                        -H "Accept: application/vnd.github+json" \
-                                        ''' + GITHUB_API_URL + '''/issues \
-                                        -d ''' + "'" + jsonPayload + "'"
-                                }
+                        try {
+                            // Download and configure OWASP Dependency-Check
+                            sh 'curl -L https://github.com/jeremylong/DependencyCheck/releases/download/v6.3.2/dependency-check-6.3.2-release.zip -o dependency-check.zip'
+                            sh 'unzip dependency-check.zip -d dependency-check'
+                            
+                            // Run Dependency-Check scan with exclusions
+                            sh '''
+                                ./dependency-check/bin/dependency-check.sh --project "my-project" \
+                                --scan ${WORKSPACE} \
+                                --out ${WORKSPACE}/dependency-check-report \
+                                --format ALL \
+                                --exclude "**/node_modules/**,**/*.log"
+                            '''
+                            
+                            // Process scan results
+                            scanResults = readFile("${WORKSPACE}/dependency-check-report/dependency-check-report.json")
+                            def scanResultsJson = new groovy.json.JsonSlurper().parseText(scanResults)
+                            
+                            // Check for vulnerabilities
+                            def vulnerabilities = scanResultsJson.dependencies.findAll { it.vulnerabilities.size() > 0 }
+                            if (vulnerabilities.size() > 0) {
+                                currentBuild.result = 'UNSTABLE'
+                                echo "Vulnerabilities found: ${vulnerabilities.size()}"
+                            } else {
+                                echo "No vulnerabilities found"
                             }
-                        } else {
-                            echo 'No vulnerabilities found.'
+                        } catch (Exception e) {
+                            echo "Scan failed: ${e.message}"
+                            currentBuild.result = 'UNSTABLE'
                         }
                     }
                 }
             }
         }
+    }
 
-        stage('Deploy') {
-            steps {
-                // Your deploy steps here
-                echo 'Deploying...'
-            }
+    post {
+        always {
+            archiveArtifacts artifacts: 'dependency-check-report/*', allowEmptyArchive: true
+            publishHTML(target: [
+                reportDir: 'dependency-check-report',
+                reportFiles: 'dependency-check-report.html',
+                reportName: 'Dependency Check Report'
+            ])
         }
     }
 }
