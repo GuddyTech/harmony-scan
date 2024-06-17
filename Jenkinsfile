@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Define any environment variables you need
-        WORKSPACE = "${env.WORKSPACE}" 
+        WORKSPACE = "${env.WORKSPACE}"  
     }
 
     stages {
