@@ -20,7 +20,7 @@ pipeline {
                             sh '''
                                 ./dependency-check/bin/dependency-check.sh --project "my-project" \
                              
-                                --scan ${WORKSPACE}/**/*.jar \
+                                --scan ${WORKSPACE}/**/*.md \
                                 --out ${WORKSPACE}/dependency-check-report \
                                 --format ALL \
                                 --exclude "**/node_modules/**,**/*.log" 
