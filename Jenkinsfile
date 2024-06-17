@@ -22,7 +22,8 @@ pipeline {
                                 --scan ${WORKSPACE} \
                                 --out ${WORKSPACE}/dependency-check-report \
                                 --format ALL \
-                                --exclude "**/node_modules/**,**/*.log"
+                                --exclude "**/node_modules/**,**/*.log" \
+                                --include "**/*.xvxvxdssd"
                             '''
 
                             // Process scan results
