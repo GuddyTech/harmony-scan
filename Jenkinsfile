@@ -24,19 +24,25 @@ pipeline {
                                 --format ALL \
                                 --exclude "**/node_modules/**,**/*.log"
                             '''
-                            
+
                             // Process scan results
                             scanResults = readFile("${WORKSPACE}/dependency-check-report/dependency-check-report.json")
                             def scanResultsJson = new groovy.json.JsonSlurper().parseText(scanResults)
                             
-                            // Check for vulnerabilities
-                            def vulnerabilities = scanResultsJson.dependencies.findAll { it.vulnerabilities.size() > 0 }
-                            if (vulnerabilities.size() > 0) {
-                                currentBuild.result = 'UNSTABLE'
-                                echo "Vulnerabilities found: ${vulnerabilities.size()}"
+                            // Check if dependencies exist and for vulnerabilities
+                            if (scanResultsJson.dependencies) {
+                                def vulnerabilities = scanResultsJson.dependencies.findAll { it.vulnerabilities?.size() > 0 }
+                                if (vulnerabilities.size() > 0) {
+                                    currentBuild.result = 'UNSTABLE'
+                                    echo "Vulnerabilities found: ${vulnerabilities.size()}"
+                                } else {
+                                    echo "No vulnerabilities found"
+                                }
                             } else {
-                                echo "No vulnerabilities found"
+                                echo "No dependencies found"
+                                currentBuild.result = 'UNSTABLE'
                             }
+
                         } catch (Exception e) {
                             echo "Scan failed: ${e.message}"
                             currentBuild.result = 'UNSTABLE'
