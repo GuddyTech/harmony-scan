@@ -19,6 +19,8 @@ pipeline {
                 echo  "${ISSUES_URL}"
                 echo "${env.JENKINS_URL}job/"
                 echo "${env.JOB_NAME.replaceAll(' ', '%20')}/job/"
+                echo "${env.JOB_NAME.replaceAll(' ', '%20')}/"
+                echo "${env.JOB_NAME}/job/"
                 echo "${env.BUILD_NUMBER}/"
 
                 
