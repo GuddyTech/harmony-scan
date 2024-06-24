@@ -46,6 +46,11 @@ pipeline {
                         //     "**/*.log"                         // Exclude log files
                         //     ]
                         // ])
+
+                        // Encode job name to handle spaces and special characters
+                        def encodedJobName = java.net.URLEncoder.encode(env.JOB_NAME, "UTF-8")
+                        def urlFragment = "${encodedJobName}-#${env.BUILD_NUMBER}"
+                        echo "Job URL Fragment: ${urlFragment}"
                         echo  "${ISSUES_URL}"
 
                         scan = 'vulnerability'
