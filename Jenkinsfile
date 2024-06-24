@@ -41,6 +41,7 @@ pipeline {
                         //     "**/*.log"                         // Exclude log files
                         //     ]
                         // ])
+                        echo  "${ISSUES_URL}"
 
                         scan = 'vulnerability'
                         
