@@ -15,15 +15,9 @@ pipeline {
             steps {
                 // Your build steps here
                 echo 'Building...'
-                echo "${BUILD_URL}"
                 echo  "${ISSUES_URL}"
-                echo "${env.JENKINS_URL}job/"
-                echo "${env.JOB_NAME.replaceAll(' ', '%20')}/job/"
-                echo "${env.JOB_NAME.replaceAll(' ', '%20')}/"
-                echo "${env.JOB_NAME}/job/"
-                echo "${env.BUILD_NUMBER}/"
-
-                
+                echo "${BUILD_URL}"
+                                
             }
         }
 
@@ -56,8 +50,9 @@ pipeline {
                         if (vulnerabilitiesFound) {
                             echo 'Vulnerabilities found, creating or updating GitHub issue...'
 
-                            def ISSUE_TITLE = "Test for Harmony Scan BlackDuck. BUILD NUMBER: $BUILD_DISPLAY_NAME"
-                            def ISSUE_BODY = "This is the body of the example issuesss arising now. The URL: ${ISSUES_URL} Details: ${scan} and with a build_Url: ${BUILD_URL}"
+                            //def ISSUE_TITLE = "Test for Harmony Scan BlackDuck. BUILD NUMBER: $BUILD_DISPLAY_NAME"
+                            def ISSUE_TITLE = "Test for Harmony Scan BlackDuck."
+                            def ISSUE_BODY = "This is the body of the example issuesss arising now. The URL: ${ISSUES_URL} \n Details: ${scan} and with a build_Url: ${BUILD_URL}"
                             def ISSUE_LABELS = '["bug", "help wanted"]'
 
                             withCredentials([string(credentialsId: 'githubpat-30-05-24-finegrained', variable: 'GITHUB_TOKEN')]) {
