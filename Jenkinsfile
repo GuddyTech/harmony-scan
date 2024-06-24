@@ -55,7 +55,7 @@ pipeline {
 
                             //def ISSUE_TITLE = "Test for Harmony Scan BlackDuck. BUILD NUMBER: $BUILD_DISPLAY_NAME"
                             def ISSUE_TITLE = "Test for Harmony Scan BlackDuck."
-                            def ISSUE_BODY = "This is the body of the example issuesss arising now. The URL: ${ISSUES_URL}  Details: ${scan}\nand with a build_Url: ${BUILD_URL} Date and Time: ${currentDateTime}"
+                            def ISSUE_BODY = "This is the body of the example issuesss arising now. The URL: ${ISSUES_URL}  Details: ${scan}\\nand with a build_Url: ${BUILD_URL} Date and Time: ${currentDateTime}"
                             def ISSUE_LABELS = '["bug", "help wanted"]'
 
 
