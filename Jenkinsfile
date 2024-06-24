@@ -51,7 +51,7 @@ pipeline {
                             echo 'Vulnerabilities found, creating or updating GitHub issue...'
 
                             //def ISSUE_TITLE = "Test for Harmony Scan BlackDuck. BUILD NUMBER: $BUILD_DISPLAY_NAME"
-                            def ISSUE_TITLE = "Test for Harmony Scan BlackDuck."
+                            def ISSUE_TITLE = "Testing for Harmony Scan BlackDuck."
                             def ISSUE_BODY = "This is the body of the example issuesss arising now. The URL: ${ISSUES_URL} \n Details: ${scan} and with a build_Url: ${BUILD_URL}"
                             def ISSUE_LABELS = '["bug", "help wanted"]'
 
