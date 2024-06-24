@@ -26,6 +26,10 @@ pipeline {
             steps {
                 // Your unit test steps here
                 echo 'Running unit tests...'
+                // Encode job name to handle spaces and special characters
+                def encodedJobName = java.net.URLEncoder.encode(env.JOB_NAME, "UTF-8")
+                def urlFragment = "${encodedJobName}-#${env.BUILD_NUMBER}"
+                echo "Job URL Fragment: ${urlFragment}"
             }
         }
 
