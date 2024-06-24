@@ -3,7 +3,7 @@
 
 def GITHUB_REPO = 'guddytech/harmony-scan'; // Replace with your GitHub repository
 def GITHUB_API_URL = "https://api.github.com/repos/${GITHUB_REPO}";
-def ISSUES_URL = "https://github.com/${GITHUB_REPO}/issues"; //Issues URL
+def ISSUES_URL = "https://github.com/${GITHUB_REPO}/issues/52"; //Issues URL for just the harmony scan that keeps updating that number 52 when it sees a vulnerability
 //def BUILD_URL = "${env.JENKINS_URL}job/${env.JOB_NAME}/${env.BUILD_NUMBER}/"; //build url
 def BUILD_URL = "${env.JENKINS_URL}job/${env.JOB_NAME.replaceAll(' ', '%20')}/job/${env.BUILD_NUMBER}/";
 
@@ -52,7 +52,7 @@ pipeline {
 
                             //def ISSUE_TITLE = "Test for Harmony Scan BlackDuck. BUILD NUMBER: $BUILD_DISPLAY_NAME"
                             def ISSUE_TITLE = "Test for Harmony Scan BlackDuck."
-                            def ISSUE_BODY = "This is the body of the example issuesss arising now. The URL: ${ISSUES_URL}  Details: ${scan} and with a build_Url: ${BUILD_URL}"
+                            def ISSUE_BODY = "This is is the body of the example issuesss arising now. The URL: ${ISSUES_URL}  Details: ${scan} and with a build_Url: ${BUILD_URL}"
                             def ISSUE_LABELS = '["bug", "help wanted"]'
 
                             withCredentials([string(credentialsId: 'githubpat-30-05-24-finegrained', variable: 'GITHUB_TOKEN')]) {
