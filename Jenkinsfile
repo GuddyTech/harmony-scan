@@ -4,7 +4,8 @@
 def GITHUB_REPO = 'guddytech/harmony-scan'; // Replace with your GitHub repository
 def GITHUB_API_URL = "https://api.github.com/repos/${GITHUB_REPO}";
 def ISSUES_URL = "https://github.com/${GITHUB_REPO}/issues"; //Issues URL
-def BUILD_URL = "${env.JENKINS_URL}job/${env.JOB_NAME}/${env.BUILD_NUMBER}/"; //build url
+//def BUILD_URL = "${env.JENKINS_URL}job/${env.JOB_NAME}/${env.BUILD_NUMBER}/"; //build url
+BUILD_URL = "${env.JENKINS_URL}job/${env.JOB_NAME.replaceAll(' ', '%20')}/job/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/";
 
 pipeline {
     agent any 
