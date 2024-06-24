@@ -17,6 +17,7 @@ pipeline {
                 echo 'Building...'
                 echo  "${ISSUES_URL}"
                 echo "${BUILD_URL}"
+                echo "${env.JOB_NAME}-#${env.BUILD_NUMBER}"
                                 
             }
         }
