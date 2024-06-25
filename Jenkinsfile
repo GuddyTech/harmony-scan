@@ -5,7 +5,7 @@ def GITHUB_REPO = 'guddytech/harmony-scan'; // Replace with your GitHub reposito
 def GITHUB_API_URL = "https://api.github.com/repos/${GITHUB_REPO}";
 def ISSUES_URL = "https://github.com/${GITHUB_REPO}/issues/52"; //Issues URL for just the harmony scan that keeps updating that number 52 when it sees a vulnerability
 //def BUILD_URL = "${env.JENKINS_URL}job/${env.JOB_NAME}/${env.BUILD_NUMBER}/"; //build url
-def BUILD_URL = "${env.JENKINS_URL}job/${env.JOB_NAME.replaceAll(' ', '%20')}/job/${env.BUILD_NUMBER}/";
+//def BUILD_URL = "${env.JENKINS_URL}job/${env.JOB_NAME.replaceAll(' ', '%20')}/job/${env.BUILD_NUMBER}/";
 
 pipeline {
     agent any 
@@ -17,7 +17,13 @@ pipeline {
                 echo 'Building...'
                 echo  "${ISSUES_URL}"
                 echo "${BUILD_URL}"
-                echo "${env.JOB_NAME}-#${env.BUILD_NUMBER}"
+                echo "${JENKINS_URL}"
+                echo "${JOB_NAME}"
+                echo "${BUILD_NUMBER}"
+                echo "${JOB_NAME}"
+                echo "${JOB_NAME.replaceAll(' ', '%20')}"
+                echo "${env.BUILD_URL}"
+                
                                 
             }
         }
@@ -26,10 +32,9 @@ pipeline {
             steps {
                 // Your unit test steps here
                 echo 'Running unit tests...'
-                // Encode job name to handle spaces and special characters
-                def encodedJobName = java.net.URLEncoder.encode(env.JOB_NAME, "UTF-8")
-                def urlFragment = "${encodedJobName}-#${env.BUILD_NUMBER}"
-                echo "Job URL Fragment: ${urlFragment}"
+                //def encodedJobName = java.net.URLEncoder.encode(env.JOB_NAME, "UTF-8")
+                //def urlFragment = "${encodedJobName}-#${env.BUILD_NUMBER}"
+                //echo "Job URL Fragment: ${urlFragment}"
             }
         }
 
@@ -47,10 +52,9 @@ pipeline {
                         //     ]
                         // ])
 
-                        // Encode job name to handle spaces and special characters
-                        def encodedJobName = java.net.URLEncoder.encode(env.JOB_NAME, "UTF-8")
-                        def urlFragment = "${encodedJobName}-#${env.BUILD_NUMBER}"
-                        echo "Job URL Fragment: ${urlFragment}"
+                        //def encodedJobName = java.net.URLEncoder.encode(env.JOB_NAME, "UTF-8")
+                        //def urlFragment = "${encodedJobName}-#${env.BUILD_NUMBER}"
+                        //echo "Job URL Fragment: ${urlFragment}"
                         echo  "${ISSUES_URL}"
 
                         scan = 'vulnerability'
